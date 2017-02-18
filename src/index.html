@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Yitim!</title>
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="yes" name="apple-touch-fullscreen">
+  <meta content="telephone=no,email=no" name="format-detection">
+  <!-- base url -->
+  <base href="/">
+</head>
+<body>
+  <my-app>Loading...</my-app>
+  <% if (htmlWebpackPlugin.options.metadata.isDevServer && htmlWebpackPlugin.options.metadata.HMR !== true) { %>
+  <!-- Webpack Dev Server reload -->
+  <script src="/webpack-dev-server.js"></script>
+  <% } %>
+</body>
+</html>
