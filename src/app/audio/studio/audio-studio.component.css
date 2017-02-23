@@ -1,0 +1,133 @@
+﻿.audio-studio{
+    position: fixed;
+    width: 100%;left: 0;
+    z-index: 20;
+    overflow: hidden;min-height: 2em;
+}
+.audio-studio .top{
+    position: absolute;
+    top: 0;padding: 0.2rem 0.1rem;width: 100%;
+    background: #000;z-index: 5;min-height: 2em;
+}
+.audio-studio .toggle{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    z-index: 4;padding: 0.3rem;
+    z-index: 0.9;text-align: center;
+}
+.audio-studio .toggle img{
+    height: 1rem;width: 1rem;
+}
+.audio-studio .mask{
+    position: absolute;left: 0;top: 0;
+    height: 100%;width: 100%;background: #000;opacity: 0.9;
+    z-index: 2;
+}
+.current-play{
+    color: #f3f3f3;font-size: 14px;
+}
+.current-play img{
+    height: 25px;width: 25px;vertical-align: text-bottom;
+    margin: 0 0.3rem 0 0.6rem;margin-bottom: -3px;
+}
+.current-task{
+    position: absolute;
+    right: 0.3rem;top: 0.2rem;
+    color: #f3f3f3;
+    font-size: 14px;
+}
+.current-task .check{
+    display: inline-block;border: 1px solid #f3f3f3;vertical-align: middle;
+    border-radius: 3px;width: 14px;height: 14px;margin: 8px 5px;
+}
+.current-task .check img{
+    height: 28px;width: 28px;
+    margin-left: -6px;margin-top: -8px;
+}
+.current-task .has-new{
+    background: red;
+    display: inline-block;
+    margin-bottom: 7px;
+    margin-left: -4px;
+    height: 6px;width: 6px;
+    border-radius: 100%;
+}
+.audio-studio .body{
+    z-index: 3;color: #f3f3f3;
+    position: absolute;top: 0;left: 0;
+    width: 100%;height: 90%;padding: 0.5rem;
+    overflow-y: auto;
+}
+.audio-studio .body > .title{
+    padding: 0.3rem 0.2rem;font-size: 12px;
+}
+.audio-studio .body > .big-title{
+    font-size: 0.6rem;font-weight: 500;
+    text-align: center;
+    padding: 0.2rem 0.5rem;line-height: 0.65rem;
+}
+.audio-studio .body > .play-bar{
+    margin-top: 1.8rem;
+    margin-bottom: 1.5rem;
+    padding: 0.2rem;
+    text-align: center;
+    position: relative;
+}
+.audio-studio .body > .play-bar > .cover{
+    height: 2.8rem;width: 2.8rem;border-radius: 100%;
+    position: absolute;left: 50%;top: -0.7rem;display: inline-block;
+    margin-left: -1.4rem;z-index: -1;
+}
+.audio-studio .body > .play-bar > .btn{
+    display: inline-block;
+    margin: 0 0.2rem;
+}
+.audio-studio .body > .play-bar > .btn > img:not(.cover){
+    height: 1rem;width: 1rem;
+}
+.audio-studio .body > .play-ctrl{
+    position: relative;margin: 0.3rem 0.5rem;
+    height: 1rem;
+}
+.audio-studio .body > .play-ctrl > .time{
+    position: absolute;z-index: 8;top: 0.3rem;left: 0.3rem;font-size: 0.3rem;
+}
+.audio-studio .body > .play-ctrl > .left{
+    position: absolute;z-index: 8;top: 0.3rem;right: 0.3rem;font-size: 0.3rem;
+}
+.audio-studio .body > .play-ctrl > .total{
+    position: absolute;z-index: 5;top: 0;left: 0;
+    height: 0.15rem;background: #000;border-radius: 0.1rem;
+}
+.audio-studio .body > .play-ctrl > .current{
+    position: absolute;top: 0;left: 0;z-index: 7;
+    height: 0.15rem;background: #f3f3f3;border-radius: 0.1rem;
+}
+.audio-studio .body > .play-ctrl > .data{
+    position: absolute;top: 0;left: 0;z-index: 6;
+    height: 0.15rem;background: #828282;border-radius: 0.1rem;
+}
+.audio-studio .body > .tasks{
+    border-radius: 0.1rem;border: 1px solid #686868;
+    padding: 0.3rem;background: #3c3c3c;
+}
+.audio-studio .body > .tasks > .title{
+    font-size: 14px;
+}
+.audio-studio .body > .tasks > .item{
+    padding: 0.2rem 0.3rem;color: #ffffff;
+    font-size: 0.45rem;position: relative;
+}
+.audio-studio .body > .tasks > .item .has-new{
+    background: red;
+    display: inline-block;
+    margin-bottom: 7px;
+    margin-left: -4px;
+    height: 6px;width: 6px;
+    border-radius: 100%;
+}
+.audio-studio .body > .tasks > .item .icon{
+    height: 0.4rem;width: 0.4rem;margin-right: 0.2rem;margin-bottom: -0.05rem;
+    background: none;
+}

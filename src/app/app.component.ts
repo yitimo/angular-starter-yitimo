@@ -4,7 +4,7 @@ import {
 
 @Component({
   selector: 'my-app',
-  template: `<router-outlet></router-outlet>`,
+  template: `<router-outlet></router-outlet><audio-studio></audio-studio>`,
 })
 export class AppComponent implements OnInit {
 

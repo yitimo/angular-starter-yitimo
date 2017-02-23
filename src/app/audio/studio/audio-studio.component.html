@@ -1,0 +1,36 @@
+﻿<div class="audio-studio" *ngIf="playList.length" [@studioDisp]="disp">
+    <div class="mask"></div>
+    <div class="top" (click)="disp = 'on'" (mySwipe)="audioSwiped($event)" *ngIf="disp == 'off'">
+        <div style="color: #fff;">正在播放...点我展开</div>
+    </div>
+    <div class="toggle" (click)="disp = 'off'" (mySwipe)="audioSwiped($event)">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL0AAAC9CAMAAADRCYwCAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NjM2MURBRjJFQjk3MTFFNjg3RUFBOTlCOEU2RjUzMjIiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NjM2MURBRjFFQjk3MTFFNjg3RUFBOTlCOEU2RjUzMjIiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MEVGQkUzNERFQjkxMTFFNkI5ODM4NTkzRDA0QTRBQjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MEVGQkUzNEVFQjkxMTFFNkI5ODM4NTkzRDA0QTRBQjkiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz5eO0AqAAAABlBMVEVoaGj///8WrvGKAAAAAnRSTlP/AOW3MEoAAAJTSURBVHja7Nw5jgMxDETRX/e/9ESTGLNo4SagKjbIhw5siUQbvRyst95666233nrrrbfeeuutt95666233nrrrbfeeuutt95667Nqf+c5PR95Sc9PeUTPL3lCD2V86uwJfCrx4XxK8dF8avHBfIrxsXyq8aF8yvGRfOrxgXwa8HF8OvBhfFrwUXx68EF8mvAxfLrwIXza8BF8+vABfBrx93w68dd8WvG3fHrxl3ya8Xd8uvFXfNrxN3z68Rd8BuDP+UzAH/MZgT/lMwN/yGcI/ozPFPwRnzH4Ez5z8Ad8BuH3+UzCb/MZhd/lMwu/yWcYfo/PNPwWn3H4HT7z8Bt8BuLX+UzEL/PJxSuXTy5euXyS8bl8svGpfNLxmXzy8Yl8CvB5fCrwaXxK8Fl8avBJfIrwOXyq8Cl7XerwCXwK8fF8KvHhVSnFR9elFh/9PVaMj61NNT72J7AcH1mfenzk6akBH9eDDnzcwbsFH9WHHnzUnS35FJjLpwsfc91vw0fw6cNHTIoa8fd8OvH3Q8ZW/C2fXvztfLoZf9ebbvxVd9rxN/3P9VI/nwH4cwIT8Md8NAF/+uLNmV4awR/y5Cu38dLDfOlhvvQwX3qYLz3Mlx7mSw/zpYf50ji+puF3/tpgXS+N46/rpXn85duJNI+/fDOUBvJX9dJA/upERBrIX51GSQP5q5NAaSJ/cQorDeSvTsDVmtX5vQba/1X9ubfShKxu3T4+qjFZ3TY/Fuutt95666233nrrrbfeeuutt95666233nrrrbfeeuutt/42XwIMAPDzZvIHZ29PAAAAAElFTkSuQmCC"
+            alt="">
+    </div>
+    <div class="body">
+        <div class="title">正在播放 : </div>
+        <div class="big-title">{{audio.PlayList()[audio.PlayData().Index].Title}}</div>
+        <div class="play-bar">
+            <img src="{{audio.PlayList()[audio.PlayData().Index].Cover}}" alt="" class="cover">
+            <div class="btn" (click)="audio.Prev()">
+                <img src="/assets/img/audio/icon_prev.png" alt="">
+            </div>
+            <div class="btn" (click)="audio.Toggle()">
+                <img style="margin: 0 1.5rem;"
+                src="{{audio.PlayData().IsPlaying ? '/assets/img/audio/icon_pause.png' : '/assets/img/audio/icon_play.png'}}" alt="">
+            </div>
+            <div class="btn" (click)="audio.Next()">
+                <img src="/assets/img/audio/icon_next.png" alt="">
+            </div>
+        </div>
+        <div class="play-ctrl">
+            <div class="total" id="audio-total" style="width: 100%;"></div>
+            <div class="data" (click)="Skip($event)"
+            [ngStyle]="{'width': audio.PlayData().Data / audio.PlayData().During * 100 + '%'}"></div>
+            <div class="current" (click)="Skip($event)"
+            [ngStyle]="{'width': audio.PlayData().Current / audio.PlayData().During * 100 + '%'}"></div>
+            <div class="time">{{audio.PlayData().During | myTime}}</div>
+            <div class="left">- {{audio.PlayData().During - audio.PlayData().Current | myTime}}</div>
+        </div>
+    </div>
+</div>
