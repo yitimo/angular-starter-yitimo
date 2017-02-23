@@ -1,8 +1,4 @@
-﻿/*
- * 名称：根组件
- * 功能：引导应用并渲染路由
- */
-import { Component, OnInit, ViewEncapsulation, Input,
+﻿import { Component, OnInit, ViewEncapsulation, Input,
 trigger, animate, transition, state, style, HostListener } from '@angular/core';
 import { AudioService } from '../audio.service';
 import { Audio } from '../audio.model';
