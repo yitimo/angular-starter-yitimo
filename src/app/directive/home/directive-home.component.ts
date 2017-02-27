@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SlideImg } from '../../shared/slide-img/slide-img.interface';
-import { AudioService } from '../../audio/audio.service';
+import { AudioService } from 'ng2-firstyitimo';
 
 @Component({
     templateUrl: 'directive-home.component.html',
