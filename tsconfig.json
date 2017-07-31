@@ -15,13 +15,16 @@
       "dom",
       "es6"
     ],
+    "baseUrl": ".",
+    "paths": {
+      "@angular/*": ["node_modules/@angular/*"]
+    },
     "typeRoots": [
-      "node_modules/@types",
-      "./typings/**/*.d.ts",
-			"../vendor/tslib/tslib.d.ts"
+      "node_modules/@types"
     ],
     "types": [
       "hammerjs",
+      "jasmine",
       "node",
       "source-map",
       "uglify-js",

@@ -3,12 +3,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'my-app',
-  template: `<router-outlet></router-outlet><audio-studio></audio-studio>`,
+  selector: 'app',
+  template: `Hello~`,
 })
-export class AppComponent implements OnInit {
-
-    public ngOnInit() {
-        console.log('load app.component');
-    }
-}
+export class AppComponent{}

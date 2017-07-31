@@ -1,21 +1,31 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
+import {
+  NgModule,
+  ApplicationRef
+} from '@angular/core';
 
-import { AppComponent } from './app.component';
+/*
+ * Platform and Environment providers/directives/pipes
+ */
 import { ENV_PROVIDERS } from './environment';
+// App is our top level component
+import { AppComponent } from './app.component';
 
-import { AudioModule } from 'ng2-firstyitimo';
-import { AudioService } from 'ng2-firstyitimo';
+import '../styles/global.css';
 
+/**
+ * `AppModule` is the main entry point into Angular2's bootstraping process
+ */
 @NgModule({
-    bootstrap: [ AppComponent ],
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        AudioModule
-    ],
-    providers: [ ENV_PROVIDERS, AudioService ]
+  bootstrap: [ AppComponent ],
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule
+  ],
+  providers: [
+    ENV_PROVIDERS
+  ]
 })
-export class AppModule { }
+export class AppModule {}
