@@ -3,6 +3,8 @@ import {
   NgModule,
   ApplicationRef
 } from '@angular/core';
+import { YUPModule } from 'yeui';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -22,7 +24,7 @@ import '../styles/global.css';
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule, BrowserAnimationsModule, YUPModule
   ],
   providers: [
     ENV_PROVIDERS
