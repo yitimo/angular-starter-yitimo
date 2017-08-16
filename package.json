@@ -1,13 +1,13 @@
 {
   "name": "angular-starter-yitimo",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "angular demo by yitim",
   "keywords": [
     "angular",
     "webpack",
     "typescript"
   ],
-  "author": "yitimo <635928008@qq.com>",
+  "author": "yitimo <admin@yitimo.com>",
   "private": true,
   "license": "MIT",
   "scripts": {

@@ -5,6 +5,8 @@ import {
 } from '@angular/core';
 import { YUPModule } from 'yeui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app.route';
+import { HomeModule } from './home';
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -24,7 +26,8 @@ import '../styles/global.css';
     AppComponent
   ],
   imports: [
-    BrowserModule, BrowserAnimationsModule, YUPModule
+    BrowserModule, BrowserAnimationsModule, YUPModule,
+    AppRoutingModule, HomeModule
   ],
   providers: [
     ENV_PROVIDERS
