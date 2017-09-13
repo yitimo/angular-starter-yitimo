@@ -1,0 +1,12 @@
+.list{
+    text-align: center;
+}
+.item{
+    display: inline-block;
+    width: 27%;
+    margin: 12px 2%;
+    padding: 24px 0 12px 0;
+    text-align: center;
+    border-bottom: 3px solid #34d434;
+    border-radius: 3px;
+}

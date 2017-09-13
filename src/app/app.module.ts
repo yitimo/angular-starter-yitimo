@@ -1,25 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  NgModule,
-  ApplicationRef
-} from '@angular/core';
+import { NgModule } from '@angular/core';
 import { YUPModule } from 'yeui';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app.route';
-import { HomeModule } from './home';
-
-/*
- * Platform and Environment providers/directives/pipes
- */
 import { ENV_PROVIDERS } from './environment';
-// App is our top level component
 import { AppComponent } from './app.component';
 
 import '../styles/global.css';
 
-/**
- * `AppModule` is the main entry point into Angular2's bootstraping process
- */
+import { HomeModule } from './home';
+import { YeuiModule } from './yeui';
+
 @NgModule({
   bootstrap: [ AppComponent ],
   declarations: [
@@ -27,7 +18,7 @@ import '../styles/global.css';
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule, YUPModule,
-    AppRoutingModule, HomeModule
+    AppRoutingModule, HomeModule, YeuiModule
   ],
   providers: [
     ENV_PROVIDERS
