@@ -6,7 +6,7 @@ import { YeuiComponent } from './yeui.component';
 import { YeuiRoutingModule } from './yeui.route';
 import { HomeComponent } from './home';
 import { PopupComponent } from './popup';
-import { InputComponent } from './input';
+import { InputsComponent } from './inputs';
 import { ButtonsComponent } from './buttons';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { ButtonsComponent } from './buttons';
         YeuiComponent,
         HomeComponent,
         PopupComponent,
-        InputComponent,
+        InputsComponent,
         ButtonsComponent
     ],
     imports: [ SharedModule, YeuiRoutingModule ],

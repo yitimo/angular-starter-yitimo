@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { YINModule } from '/yeui';
+import { YINModule } from 'yeui';
 
 @NgModule({
     declarations: [],

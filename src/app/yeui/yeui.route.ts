@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { YeuiComponent } from './yeui.component';
 import { HomeComponent } from './home';
-import { InputComponent } from './input';
+import { InputsComponent } from './inputs';
 import { ButtonsComponent } from './buttons';
 import { PopupComponent } from './popup';
 
@@ -14,7 +14,7 @@ const routes: Routes = [
         children: [
             { path: '', component: HomeComponent },
             { path: 'home', component: HomeComponent },
-            { path: 'input', component: InputComponent },
+            { path: 'inputs', component: InputsComponent },
             { path: 'buttons', component: ButtonsComponent },
             { path: 'popup', component: PopupComponent }
         ]
