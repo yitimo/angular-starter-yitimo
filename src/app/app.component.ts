@@ -6,7 +6,6 @@ import {
   selector: 'app',
   template: `
     <router-outlet></router-outlet>
-    <yup></yup>
   `,
 })
 export class AppComponent implements OnInit {

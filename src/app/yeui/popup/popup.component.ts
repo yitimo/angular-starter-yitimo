@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { YUPService } from 'yeui';
+import { Yup } from 'yeui';
+import { CustomComponent } from './custom.component';
 
 @Component({
     templateUrl: './popup.component.html',
@@ -7,7 +8,7 @@ import { YUPService } from 'yeui';
 })
 export class PopupComponent implements OnInit {
     constructor(
-        public yup: YUPService
+        public yup: Yup
     ) {
         //
     }
@@ -17,21 +18,39 @@ export class PopupComponent implements OnInit {
     }
 
     public Alert() {
-        this.yup.Alert({msg: '弹弹弹', title: '我弹'});
+        this.yup.alert({msg: '弹不弹?', title: '我弹', ok: '弹弹弹'}).afterClose().subscribe((res) => {
+            console.log('弹完了');
+        });
     }
 
     public Dialog() {
-        this.yup.Dialog({msg: '弹不弹?', title: '我弹', okStr: '弹弹', noStr: '别弹了'});
+        this.yup.dialog({msg: '弹不弹?', title: '我弹', ok: '弹弹', no: '别弹了', mask: true}).afterClose().subscribe((res) => {
+            if (res) {
+                console.log('点击了确定');
+            } else {
+                console.log('点击了取消');
+            }
+        });
     }
 
     public Toast() {
-        this.yup.Toast({msg: '突突突 !'});
+        this.yup.toast({msg: '弹一个！', duration: 1000});
     }
 
     public Load() {
-        this.yup.Load({msg: '等着 !'});
-        window.setTimeout(() => {
-            this.yup.Loaded();
-        }, 2000);
+        this.yup.load({msg: '正在'});
+        setTimeout(() => {
+            this.yup.load({msg: '弹好了!', type: 'success', duration: 1000});
+        }, 1000);
+    }
+
+    public Custom() {
+        this.yup.open(CustomComponent, '我是自定义数据').afterClose().subscribe((res) => {
+            console.log(`我已经被关闭了，不过我能携带出来数据: 【${res}】`);
+        });
+    }
+
+    public Loaded() {
+        this.yup.loaded();
     }
 }

@@ -8,12 +8,14 @@ import { HomeComponent } from './home';
 import { PopupComponent } from './popup';
 import { InputsComponent } from './inputs';
 import { ButtonsComponent } from './buttons';
+import { CustomComponent } from './popup';
 
 @NgModule({
     declarations: [
         YeuiComponent,
         HomeComponent,
         PopupComponent,
+        CustomComponent,
         InputsComponent,
         ButtonsComponent
     ],
@@ -22,5 +24,6 @@ import { ButtonsComponent } from './buttons';
     providers: [
         YeuiService
     ],
+    entryComponents: [CustomComponent]
 })
 export class YeuiModule {}
