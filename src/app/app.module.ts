@@ -7,6 +7,7 @@ import { WildcardRoutingModule } from './wildcard.route';
 import { ENV_PROVIDERS } from './environment';
 import { AppComponent } from './app.component';
 import { YupModule } from 'yeui';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import '../styles/global.css';
 
@@ -21,7 +22,7 @@ import { YeuiModule } from './yeui';
   ],
   imports: [
     BrowserModule, BrowserAnimationsModule, YupModule,
-    AppRoutingModule, YeuiModule,
+    AppRoutingModule, YeuiModule, ReactiveFormsModule, FormsModule,
     WildcardRoutingModule // 此模块用作全局的缺省路由，所以必须放在imports数组的最后一个
   ],
   providers: [
