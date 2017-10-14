@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { YUPModule } from 'yeui'; // yeui的弹窗模块，添加到根模块使用
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app.route';
 import { WildcardRoutingModule } from './wildcard.route';
@@ -10,6 +9,7 @@ import { YupModule } from 'yeui';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import '../styles/global.css';
+import 'hammerjs';
 
 import { HomeComponent } from './home';
 import { NotFoundComponent } from './notfound';
