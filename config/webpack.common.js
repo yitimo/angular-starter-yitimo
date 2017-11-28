@@ -1,108 +1,118 @@
-const webpack = require('webpack');
 const helpers = require('./helpers');
 
-// const AssetsPlugin = require('assets-webpack-plugin');
-// const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
 const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 const ngcWebpack = require('ngc-webpack');
 
-const AOT = process.env.BUILD_AOT || helpers.hasNpmFlag('aot');
-const METADATA = {
-  isDevServer: helpers.isWebpackDevServer()
-};
+const buildUtils = require('./build-utils');
 
 module.exports = function (options) {
-  isProd = options.env === 'production';
+  const isProd = options.env === 'production';
+  const METADATA = Object.assign({}, buildUtils.DEFAULT_METADATA, options.metadata || {});
+  const ngcWebpackConfig = buildUtils.ngcWebpackSetup(isProd, METADATA);
+  const supportES2015 = buildUtils.supportES2015(METADATA.tsConfigPath);
+  // 入口文件
+  const entry = {
+    polyfills: './src/polyfills.browser.ts',
+    main:      './src/main.browser.ts'
+  };
+  Object.assign(ngcWebpackConfig.plugin, {
+    tsConfigPath: METADATA.tsConfigPath,
+    mainPath: entry.main
+  });
   return {
-    /**
-     * 入口文件
-     */
-    entry: {
-      'polyfills': './src/polyfills.browser.ts',
-      'main': AOT ? './src/main.browser.aot.ts' : './src/main.browser.ts'
-    },
-    /**
-     * 指定处理这些文件
-     */
+    entry: entry,
     resolve: {
+      mainFields: [ ...(supportES2015 ? ['es2015'] : []), 'browser', 'module', 'main' ],
       extensions: ['.ts', '.js', '.json'],
       modules: [helpers.root('src'), helpers.root('node_modules')],
+      alias: buildUtils.rxjsAlias(supportES2015)
     },
     module: {
-      /**
-       * 各种打包规则
-       * 主要为项目涉及到代码文件类型的打包
-       * 以及适配angular的loader
-       */
+
       rules: [
+        ...ngcWebpackConfig.loaders,
         {
-          test: /\.ts$/,
-          use: [
-            { loader: 'ng-router-loader', options: { loader: 'async-import', genDir: 'compiled', aot: AOT } },
-            { loader: 'awesome-typescript-loader', options: { configFileName: 'tsconfig.webpack.json', useCache: !isProd } },
-            { loader: 'angular2-template-loader' }
-          ],
-          exclude: [/\.(spec|e2e)\.ts$/]
+          test: /\.css$/,
+          use: ['to-string-loader', 'css-loader'],
+          exclude: [helpers.root('src', 'styles')]
         },
-        { test: /\.css$/, use: ['to-string-loader', 'css-loader'], exclude: [helpers.root('src', 'styles')] },
-        { test: /\.scss$/, use: ['to-string-loader', 'css-loader', 'sass-loader'], exclude: [helpers.root('src', 'styles')] },
-        { test: /\.html$/, use: 'raw-loader', exclude: [helpers.root('src/index.html')] },
-        { test: /\.(jpg|png|gif)$/, use: 'file-loader' },
-        { test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/, use: 'file-loader' }
+        {
+          test: /\.scss$/,
+          use: ['to-string-loader', 'css-loader', 'sass-loader'],
+          exclude: [helpers.root('src', 'styles')]
+        },
+        {
+          test: /\.html$/,
+          use: 'raw-loader',
+          exclude: [helpers.root('src/index.html')]
+        },
+        {
+          test: /\.(jpg|png|gif)$/,
+          use: 'file-loader'
+        },
+        {
+          test: /\.(eot|woff2?|svg|ttf)([\?]?.*)$/,
+          use: 'file-loader'
+        }
       ],
     },
-    /**
-     * 改善webpack打包行为的一系列插件
-     * 具体用法可以到webpack文档找到对应名字的插件
-     */
     plugins: [
-      new CheckerPlugin(),
+      new DefinePlugin({
+        'ENV': JSON.stringify(METADATA.ENV),
+        'AOT': METADATA.AOT,
+        'process.env.ENV': JSON.stringify(METADATA.ENV),
+        'process.env.NODE_ENV': JSON.stringify(METADATA.ENV)
+      }),
       new CommonsChunkPlugin({
         name: 'polyfills',
         chunks: ['polyfills']
       }),
-      new ContextReplacementPlugin(
-        /angular(\\|\/)core(\\|\/)@angular/,
-        helpers.root('src'), // location of your src
-        {}
-      ),
-      /**
-       * 将assets目录不做处理直接复制到输出目录下
-       */
-      new CopyWebpackPlugin([
-        { from: 'src/assets', to: 'assets' }
-      ]),
-      new ScriptExtHtmlWebpackPlugin({
-        sync: /polyfill|vendor/,
-        defaultAttribute: 'async',
-        preload: [/polyfill|vendor|main/],
-        prefetch: [/chunk/]
+      new CommonsChunkPlugin({
+        minChunks: Infinity,
+        name: 'inline'
       }),
+      new CommonsChunkPlugin({
+        name: 'main',
+        async: 'common',
+        children: true,
+        minChunks: 2
+      }),
+      new CopyWebpackPlugin([
+        { from: 'src/assets', to: 'assets' },
+      ]),
       new HtmlWebpackPlugin({
         template: 'src/index.html',
         title: METADATA.title,
-        chunksSortMode: 'dependency',
+        chunksSortMode: function (a, b) {
+          const entryPoints = ["inline","polyfills","sw-register","styles","vendor","main"];
+          return entryPoints.indexOf(a.names[0]) - entryPoints.indexOf(b.names[0]);
+        },
         metadata: METADATA,
-        inject: 'body'
+        inject: 'body',
+        xhtml: true,
+        minify: isProd ? {
+          caseSensitive: true,
+          collapseWhitespace: true,
+          keepClosingSlash: true
+        } : false
+      }),
+      new ScriptExtHtmlWebpackPlugin({
+        sync: /inline|polyfills|vendor/,
+        defaultAttribute: 'async',
+        preload: [/polyfills|vendor|main/],
+        prefetch: [/chunk/]
       }),
       new LoaderOptionsPlugin({}),
-      new ngcWebpack.NgcWebpackPlugin({
-        disabled: !AOT,
-        tsConfig: helpers.root('tsconfig.webpack.json')
-      }),
+
+      new ngcWebpack.NgcWebpackPlugin(ngcWebpackConfig.plugin),
       new InlineManifestWebpackPlugin(),
     ],
-    /**
-     * 配置node行为
-     * See: https://webpack.github.io/docs/configuration.html#node
-     */
     node: {
       global: true,
       crypto: 'empty',

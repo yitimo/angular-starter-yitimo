@@ -1,104 +1,187 @@
+/**
+ * @author: @AngularClass
+ */
 const helpers = require('./helpers');
+const buildUtils = require('./build-utils');
+
+/**
+ * Used to merge webpack configs
+*/
 const webpackMerge = require('webpack-merge');
+/**
+ * The settings that are common to prod and dev
+*/
 const commonConfig = require('./webpack.common.js');
-const DefinePlugin = require('webpack/lib/DefinePlugin');
+
+/**
+ * Webpack Plugins
+ */
+const SourceMapDevToolPlugin = require('webpack/lib/SourceMapDevToolPlugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HashedModuleIdsPlugin = require('webpack/lib/HashedModuleIdsPlugin')
-// const IgnorePlugin = require('webpack/lib/IgnorePlugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
-const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-// const ProvidePlugin = require('webpack/lib/ProvidePlugin');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
-const OptimizeJsPlugin = require('optimize-js-plugin');
-const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 8080;
-const METADATA = webpackMerge(commonConfig({
-  env: ENV
-}).metadata, {
-  host: HOST,
-  port: PORT,
-  ENV: ENV
-});
+const PurifyPlugin = require('@angular-devkit/build-optimizer').PurifyPlugin;
+const ModuleConcatenationPlugin = require('webpack/lib/optimize/ModuleConcatenationPlugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+
+
+function getUglifyOptions (supportES2015) {
+  const uglifyCompressOptions = {
+    pure_getters: true, /* buildOptimizer */
+    // PURE comments work best with 3 passes.
+    // See https://github.com/webpack/webpack/issues/2899#issuecomment-317425926.
+    passes: 3         /* buildOptimizer */
+  };
+
+  return {
+    ecma: supportES2015 ? 6 : 5,
+    warnings: false,    // TODO verbose based on option?
+    ie8: false,
+    mangle: true,
+    compress: uglifyCompressOptions,
+    output: {
+      ascii_only: true,
+      comments: false
+    }
+  };
+}
 
 module.exports = function (env) {
-  return webpackMerge(commonConfig({
-    env: ENV
-  }), {
-    devtool: 'source-map',
+  const ENV = process.env.NODE_ENV = process.env.ENV = 'production';
+  const supportES2015 = buildUtils.supportES2015(buildUtils.DEFAULT_METADATA.tsConfigPath);
+  const METADATA = Object.assign({}, buildUtils.DEFAULT_METADATA, {
+    host: process.env.HOST || 'localhost',
+    port: process.env.PORT || 8080,
+    ENV: ENV
+  });
+
+  // set environment suffix so these environments are loaded.
+  METADATA.envFileSuffix = METADATA.E2E ? 'e2e.prod' : 'prod';
+
+  return webpackMerge(commonConfig({ env: ENV, metadata: METADATA }), {
+
+    /**
+     * Options affecting the output of the compilation.
+     *
+     * See: http://webpack.github.io/docs/configuration.html#output
+     */
     output: {
+
+      /**
+       * The output directory as absolute path (required).
+       *
+       * See: http://webpack.github.io/docs/configuration.html#output-path
+       */
       path: helpers.root('dist'),
+
+      /**
+       * Specifies the name of each output file on disk.
+       * IMPORTANT: You must not specify an absolute path here!
+       *
+       * See: http://webpack.github.io/docs/configuration.html#output-filename
+       */
       filename: '[name].[chunkhash].bundle.js',
+
+      /**
+       * The filename of the SourceMaps for the JavaScript files.
+       * They are inside the output.path directory.
+       *
+       * See: http://webpack.github.io/docs/configuration.html#output-sourcemapfilename
+       */
       sourceMapFilename: '[file].map',
+
+      /**
+       * The filename of non-entry chunks as relative path
+       * inside the output.path directory.
+       *
+       * See: http://webpack.github.io/docs/configuration.html#output-chunkfilename
+       */
       chunkFilename: '[name].[chunkhash].chunk.js'
+
     },
+
     module: {
+
       rules: [
-        { test: /\.css$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' }), include: [helpers.root('src', 'styles')] },
-        { test: /\.scss$/, loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader!sass-loader' }), include: [helpers.root('src', 'styles')] },
-      ]
-    },
-    plugins: [
-      new OptimizeJsPlugin({
-        sourceMap: false
-      }),
-      new ExtractTextPlugin('[name].[contenthash].css'),
-      new DefinePlugin({
-        'ENV': JSON.stringify(METADATA.ENV),
-        'process.env': {
-          'ENV': JSON.stringify(METADATA.ENV),
-          'NODE_ENV': JSON.stringify(METADATA.ENV)
-        }
-      }),
-      new UglifyJsPlugin({
-        beautify: false, //prod
-        output: {
-          comments: false
-        }, //prod
-        mangle: {
-          screw_ie8: true
-        }, //prod
-        compress: {
-          screw_ie8: true,
-          warnings: false,
-          conditionals: true,
-          unused: true,
-          comparisons: true,
-          sequences: true,
-          dead_code: true,
-          evaluate: true,
-          if_return: true,
-          join_vars: true,
-          negate_iife: false // we need this for lazy v8
+
+        /**
+         * Extract CSS files from .src/styles directory to external CSS file
+         */
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+          }),
+          include: [helpers.root('src', 'styles')]
         },
+
+        /**
+         * Extract and compile SCSS files from .src/styles directory to external CSS file
+         */
+        {
+          test: /\.scss$/,
+          loader: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader!sass-loader'
+          }),
+          include: [helpers.root('src', 'styles')]
+        },
+
+      ]
+
+    },
+
+    /**
+     * Add additional plugins to the compiler.
+     *
+     * See: http://webpack.github.io/docs/configuration.html#plugins
+     */
+    plugins: [
+
+      new SourceMapDevToolPlugin({
+        filename: '[file].map[query]',
+        moduleFilenameTemplate: '[resource-path]',
+        fallbackModuleFilenameTemplate: '[resource-path]?[hash]',
+        sourceRoot: 'webpack:///'
       }),
-      new NormalModuleReplacementPlugin(
-        /angular2-hmr/,
-        helpers.root('config/empty.js')
-      ),
-      new NormalModuleReplacementPlugin(
-        /zone\.js(\\|\/)dist(\\|\/)long-stack-trace-zone/,
-        helpers.root('config/empty.js')
-      ),
+
+
+      /**
+       * Plugin: ExtractTextPlugin
+       * Description: Extracts imported CSS files into external stylesheet
+       *
+       * See: https://github.com/webpack/extract-text-webpack-plugin
+       */
+      new ExtractTextPlugin('[name].[contenthash].css'),
+
+      new PurifyPlugin(), /* buildOptimizer */
+
       new HashedModuleIdsPlugin(),
-      new LoaderOptionsPlugin({
-        minimize: true,
-        debug: false,
-        options: {
-          htmlLoader: {
-            minimize: true,
-            removeAttributeQuotes: false,
-            caseSensitive: true,
-            customAttrSurround: [
-              [/#/, /(?:)/],
-              [/\*/, /(?:)/],
-              [/\[?\(?/, /(?:)/]
-            ],
-            customAttrAssign: [/\)?\]?=/]
-          },
-        }
-      }),
+      new ModuleConcatenationPlugin(),
+
+      /**
+       * Plugin: UglifyJsPlugin
+       * Description: Minimize all JavaScript output of chunks.
+       * Loaders are switched into minimizing mode.
+       *
+       * See: https://webpack.github.io/docs/list-of-plugins.html#uglifyjsplugin
+       *
+       * NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
+       */
+      new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: getUglifyOptions(supportES2015)
+      })
+
     ],
+
+    /**
+     * Include polyfills or mocks for various node stuff
+     * Description: Node configuration
+     *
+     * See: https://webpack.github.io/docs/configuration.html#node
+     */
     node: {
       global: true,
       crypto: 'empty',
@@ -107,5 +190,6 @@ module.exports = function (env) {
       clearImmediate: false,
       setImmediate: false
     }
+
   });
 }
