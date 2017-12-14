@@ -1,0 +1,31 @@
+@import './var';
+
+.padding {
+    padding: $space;
+}
+.padding-x {
+    padding: 0 $space;
+}
+.padding-y {
+    padding: $space 0;
+}
+.primary {
+    background: $primary;
+    color: $light;
+}
+.accent {
+    background: $accent;
+    color: $dark;
+}
+* {
+    font-size: $font;
+}
+.x-big {
+    font-size: $font_xl;
+}
+.big {
+    font-size: $font_l;
+}
+.mini {
+    font-size: $font_s;
+}
