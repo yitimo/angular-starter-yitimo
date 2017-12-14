@@ -1,57 +1,7 @@
-.o
-.lo
-.la
-.al
-.libs
-.so
-.so.[0-9]
-.a
-.pyc
-.pyo
-.eto
-__pycache__
-.rej
-~
-##
-.#
-..swp
-.DS_Store
-[Tt]humbs.db
-[Bb]in
-[Oo]bj
-[Ll]ogs
-[Ll]og
-[Rr]elease
-[Dd]ebug
-.suo
-.err
-.log
-.obj
-.bin
-.exe
-[p]db
-.zip
-.force
-.cache
-.txt
-.apk
-.mdb
-zh-CN
-.cache
-.user
-.aps
-.vs
-
 # Node Files #
 node_modules
-bower_components
 npm-debug.log
 npm-debug.log.
-
-# Typing #
-srctypingstsd
-typings
-tsd_typings
 
 # Dist #
 dist
@@ -65,6 +15,3 @@ dist
 .webpack.json
 compiled
 dll
-
-packages
-package-lock.json
