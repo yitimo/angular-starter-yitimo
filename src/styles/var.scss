@@ -1,15 +1,2 @@
-$space_xl: 48px;
-$space_l: 32px;
-$space: 16px;
-$space_s: 8px;
-$space_xs: 4px;
-
-$font_xl: 32px;
-$font_l: 20px;
-$font: 15px;
-$font_s: 12px;
-
-$primary: #F44336;
-$accent: #FFEB3B;
-$light: #ffffff;
-$dark: #111111;
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+/* add var css here */

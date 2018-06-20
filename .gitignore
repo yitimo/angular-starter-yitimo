@@ -1,17 +1,6 @@
-# Node Files #
 node_modules
 npm-debug.log
-npm-debug.log.
-
-# Dist #
-dist
-public__build__
-src__build__
-__build__
-publicdist
-srcdist
-dist
-.awcache
-.webpack.json
-compiled
-dll
+yarn-error.log
+/dist
+/tmp
+/out-tsc

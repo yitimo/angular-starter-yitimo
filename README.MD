@@ -1,21 +1,26 @@
 # angular-starter-yitimo
-Mainly refer to AngularClass/angular-starter, but remove the hmr part and test part.
-For study purpose I added my own comment through the whole starter, but the version may not always be the latest.
-To get the best powerful starter you can go to [angular-starter](https://github.com/gdi2290/angular-starter "angular-starter"), and it will have a lot more to study.
 
-## How to run
-```
-    git clone
-    cd angular-starter-yitimo
-    yarn
-    npm run server
-```
-* you may need to have python installed for the node-sass package
+Angular starter by yitimo. Bases on project created by angular-cli.
 
-* if you still want to use npm to install the libs, just remove the ``"preinstall"`` script inside ``package.json``
+1. Use yarn for package managing.
+2. Use SCSS for styling.
+3. Use material UIs.
+4. Add i18n ability.
+5. Remove test related code.
 
-## How to build (prod mode)
-```
-npm run build:aot:prod
-```
-* for more options for building or running the project, see the scripts inside ``package.json > scripts``
+## Build it by yourself
+
+As this is a repo just based on angular-cli created, you can just build it manually. Just see as the following steps.
+
+1. install yarn
+2. install @angular/cli globally by ``yarn global add @angular/cli``
+3. config angular-cli to use yarn defaultly by ``ng config -g cli.packageManager yarn``
+4. ng new yourAppName --style=scss
+5. delete test related files if you don't need them like me
+6. move global config files to where you want
+7. add material by ``yarn add @angular/material @angular/cdk`` and then import the css file
+8. add shared module to put material modules or others common modules in
+9. add core module to put global services/modules
+10. add translate module and config it
+11. add app routes and sub routes
+12. start writing your fantastic app

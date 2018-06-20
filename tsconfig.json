@@ -1,47 +1,26 @@
 {
-  "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": true,
-    "noEmit": true,
-    "noEmitHelpers": true,
-    "importHelpers": true,
-    "strictNullChecks": false,
-    "lib": [
-      "dom",
-      "es6"
-    ],
-    "baseUrl": "./src",
-    "paths": {
-      "@angular/*": ["node_modules/@angular/*"]
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc/app",
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "module": "es2015",
+        "types": [],
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "lib": [
+            "es2017",
+            "dom"
+        ]
     },
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "hammerjs",
-      "jasmine",
-      "node",
-      "source-map",
-      "uglify-js",
-      "webpack"
+    "exclude": [
+        "src/test.ts",
+        "**/*.spec.ts"
     ]
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "awesomeTypescriptLoaderOptions": {
-    "forkChecker": true,
-    "useWebpackText": true
-  },
-  "compileOnSave": false,
-  "buildOnSave": false,
-  "atom": {
-    "rewriteTsconfig": false
-  }
 }

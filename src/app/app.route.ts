@@ -1,14 +1,17 @@
-import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
-import { HomeComponent } from './home';
+import { Routes, RouterModule } from '@angular/router';
+
+import { HomeComponent } from '../pages';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
     { path: 'home', component: HomeComponent }
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, {useHash: true})],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
+
+export const routedComponents = [HomeComponent];

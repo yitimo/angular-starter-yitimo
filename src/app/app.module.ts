@@ -1,31 +1,46 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CoreModule } from '../core';
+import { SharedModule } from '../shared';
+
 import { AppRoutingModule } from './app.route';
-import { WildcardRoutingModule } from './wildcard.route';
 import { AppComponent } from './app.component';
+import { HomeComponent, NotfoundModule } from '../pages';
 
-import '../styles/global.css';
-import '../styles/global.scss';
+import { HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import 'hammerjs';
-import { HomeComponent } from './home';
-import { NotFoundComponent } from './notfound';
-import { SharedModule } from './-shared';
-import { CoreModule } from './-core';
+// for i18n
+function createTranslateLoader(http: HttpClient) {
+    return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
+}
+const translateModuleConfig = {
+    loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+    }
+};
 
 @NgModule({
-  bootstrap: [ AppComponent ],
-  declarations: [
-    AppComponent, HomeComponent, NotFoundComponent
-  ],
-  imports: [
-    BrowserModule, BrowserAnimationsModule,
-    SharedModule, CoreModule,
-    AppRoutingModule,
-    WildcardRoutingModule // 此模块用作全局的缺省路由，所以必须放在imports数组的最后一个
-  ],
-  providers: [],
-  entryComponents: []
+    declarations: [
+        AppComponent, HomeComponent
+    ],
+    imports: [
+        BrowserModule, SharedModule, CoreModule,
+        TranslateModule.forRoot(translateModuleConfig),
+        AppRoutingModule,
+        NotfoundModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+    constructor(
+        private translate: TranslateService
+    ) {
+        this.translate.setDefaultLang('en');
+    }
+}
