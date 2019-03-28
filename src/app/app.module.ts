@@ -13,10 +13,10 @@ import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 // for i18n
-function createTranslateLoader(http: HttpClient) {
+export function createTranslateLoader(http: HttpClient) {
     return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
-const translateModuleConfig = {
+export const translateModuleConfig = {
     loader: {
         provide: TranslateLoader,
         useFactory: (createTranslateLoader),

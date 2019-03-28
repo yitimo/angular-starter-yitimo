@@ -1,26 +1,28 @@
 {
-    "compileOnSave": false,
     "compilerOptions": {
-        "baseUrl": "./",
-        "outDir": "./dist/out-tsc/app",
-        "sourceMap": true,
-        "declaration": false,
+        "target": "es5",
+        "module": "esnext",
         "moduleResolution": "node",
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "target": "es5",
-        "module": "es2015",
-        "types": [],
-        "typeRoots": [
-            "node_modules/@types"
-        ],
+        "allowSyntheticDefaultImports": true,
+        "sourceMap": true,
+        "noEmitHelpers": true,
+        "importHelpers": true,
+        "strictNullChecks": false,
+        "baseUrl": "./src",
         "lib": [
-            "es2017",
-            "dom"
+            "dom",
+            "es2015"
+        ],
+        "paths": {
+            "@angular/*": ["./node_modules/@angular/*"]
+        },
+        "typeRoots": [
+            "./node_modules/@types"
         ]
     },
-    "exclude": [
-        "src/test.ts",
-        "**/*.spec.ts"
+    "include": [
+        "./src"
     ]
 }
